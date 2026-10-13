@@ -63,12 +63,14 @@ class SkyRocket {
     }
     if (!map) return;
 
-    if (skyMobileLayout()) {
-      if (cursorEl) cursorEl.hidden = true;
+    this.useCursor = !skyMobileLayout();
+    if (cursorEl && !this.useCursor) {
+      cursorEl.hidden = true;
+    }
+    if (!this.useCursor) {
       this.map.classList.remove("sky-map--hide-os-cursor");
       return;
     }
-
     if (!cursorEl) return;
 
     map.addEventListener("pointerenter", (e) => this.onEnter(e));
@@ -168,8 +170,7 @@ class SkyRocket {
   }
 
   setCursorPose(x, y, deg) {
-    if (!this.cursorEl) return;
-    this.clearCursorAnimations();
+    if (!this.cursorEl || !this.useCursor) return;
     this.cursorEl.style.left = `${x}px`;
     this.cursorEl.style.top = `${y}px`;
     this.cursorEl.style.transform = `translate(-50%, -50%) rotate(${deg}deg)`;
@@ -220,7 +221,7 @@ class SkyRocket {
   }
 
   enterFollowMode() {
-    if (!this.cursorEl) return;
+    if (!this.cursorEl || !this.useCursor) return;
     this.clearCursorAnimations();
     this.mode = "follow";
     this.syncOsCursor();
@@ -341,14 +342,12 @@ class SkyRocket {
   flyToStar(starId, fromClient) {
     if (!this.map || !starId) return;
     if (fromClient) this.trackPointer({ clientX: fromClient.x, clientY: fromClient.y });
-    this.endStarGesture();
-    this.clearCursorAnimations();
+    if (this.useCursor) this.clearCursorAnimations();
     this.finishAtStar(starId);
   }
 
   traverseLine(_fromId, toId) {
     if (!this.map || !toId) return;
-    this.endStarGesture();
     this.finishAtStar(toId);
   }
 
@@ -572,7 +571,12 @@ function onStarActivate(id, pointerOrigin) {
     selectLinkFrom(id, pointerOrigin);
     return;
   }
-  if (linkFrom === id) return;
+  if (linkFrom === id) {
+    skyRocket?.flyToStar(id, pointerOrigin);
+    showStarSummary(id);
+    window.applySiteTheme?.(id);
+    return;
+  }
   addEdge(linkFrom, id);
 }
 
@@ -658,12 +662,12 @@ function onStarPointerUp(event) {
       factIndex.set(pointer.id, idx + 1);
       pointer = null;
       previewPoint = null;
-      skyRocket?.endStarGesture();
+      if (skyRocket?.useCursor) skyRocket.endStarGesture();
       renderLines();
       return;
     }
     pointer.lastTap = now;
-    onStarActivate(pointer.id, { x: pointer.x, y: pointer.y });
+    onStarActivate(pointer.id, { x: event.clientX, y: event.clientY });
   } else {
     const target = starAtPoint(event.clientX, event.clientY, pointer.id);
     const from = linkFrom || pointer.id;
@@ -675,7 +679,7 @@ function onStarPointerUp(event) {
 
   previewPoint = null;
   pointer = null;
-  skyRocket?.endStarGesture();
+  if (skyRocket?.useCursor) skyRocket.endStarGesture();
   renderLines();
 }
 
@@ -762,7 +766,7 @@ function initSkillSky() {
   showSummary(ready.kicker || "Ready to link", ready.lead || "", []);
 
   buildStars();
-  if (mapEl && rocketEl) {
+  if (mapEl && (rocketEl || landedRocketEl)) {
     skyRocket = new SkyRocket(mapEl, rocketEl, landedRocketEl);
     skyRocket.onLanded = (starId) => {
       linkFrom = starId;
