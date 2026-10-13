@@ -15,21 +15,36 @@ function lerp(a, b, t) {
   return a + (b - a) * t;
 }
 
-function lerpColor(c1, c2, t) {
-  const parse = (hex) => {
-    const h = hex.replace("#", "");
-    return [parseInt(h.slice(0, 2), 16), parseInt(h.slice(2, 4), 16), parseInt(h.slice(4, 6), 16)];
-  };
-  try {
-    const [r1, g1, b1] = parse(c1);
-    const [r2, g2, b2] = parse(c2);
-    const r = Math.round(lerp(r1, r2, t));
-    const g = Math.round(lerp(g1, g2, t));
-    const b = Math.round(lerp(b1, b2, t));
-    return `rgb(${r},${g},${b})`;
-  } catch {
-    return t < 0.5 ? c1 : c2;
+function parseColor(input) {
+  if (!input || typeof input !== "string") return [0, 0, 0];
+  const s = input.trim();
+  if (s.startsWith("rgb")) {
+    const nums = s.match(/[\d.]+/g);
+    if (nums && nums.length >= 3) {
+      return nums.slice(0, 3).map((n) => {
+        const v = Number(n);
+        return Number.isFinite(v) ? Math.max(0, Math.min(255, v)) : 0;
+      });
+    }
   }
+  let h = s.replace("#", "");
+  if (h.length === 3) {
+    h = h
+      .split("")
+      .map((ch) => ch + ch)
+      .join("");
+  }
+  if (h.length !== 6) return [0, 0, 0];
+  return [parseInt(h.slice(0, 2), 16), parseInt(h.slice(2, 4), 16), parseInt(h.slice(4, 6), 16)];
+}
+
+function lerpColor(c1, c2, t) {
+  const [r1, g1, b1] = parseColor(c1);
+  const [r2, g2, b2] = parseColor(c2);
+  const r = Math.round(lerp(r1, r2, t));
+  const g = Math.round(lerp(g1, g2, t));
+  const b = Math.round(lerp(b1, b2, t));
+  return `rgb(${r},${g},${b})`;
 }
 
 class SiteBackground {

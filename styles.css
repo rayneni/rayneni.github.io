@@ -40,6 +40,8 @@
   --max-width: 72rem;
   --content-gutter: 1.5rem;
   --site-rail-mark: 2.65rem;
+  --site-edge-inset-left: 7.5rem;
+  --site-edge-inset-right: 9.5rem;
   --scroll-anchor-offset: 1rem;
 }
 
@@ -51,6 +53,7 @@
 
 html {
   scroll-behavior: smooth;
+  overflow-x: clip;
 }
 
 body {
@@ -244,7 +247,10 @@ html[data-site-mode="planet"] .bg-floats {
 main {
   width: min(
     var(--max-width),
-    calc(100vw - var(--content-gutter) * 2 - var(--site-rail-mark))
+    calc(
+      100vw - var(--content-gutter) * 2 - var(--site-edge-inset-left) -
+        var(--site-edge-inset-right)
+    )
   );
   max-width: var(--max-width);
   margin: 0 auto;
@@ -1512,13 +1518,34 @@ main {
   color: var(--text-muted);
 }
 
-@media (max-width: 720px) {
+@media (max-width: 900px) {
   :root {
-    --site-rail-mark: 2.35rem;
+    --site-edge-inset-left: 5.75rem;
+    --site-edge-inset-right: 6.75rem;
   }
 
   .site-section-indicator-label {
-    font-size: 1rem;
+    font-size: 0.9375rem;
+  }
+
+  .site-rail-text {
+    font-size: 0.625rem;
+  }
+}
+
+@media (max-width: 720px) {
+  :root {
+    --site-rail-mark: 2.35rem;
+    --site-edge-inset-left: 0.25rem;
+    --site-edge-inset-right: 0.25rem;
+  }
+
+  .site-section-indicator {
+    display: none;
+  }
+
+  .site-rail-text {
+    display: none;
   }
 
   .site-rail--comms {
