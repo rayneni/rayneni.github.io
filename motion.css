@@ -1,21 +1,29 @@
 :root {
   --ease-smooth: cubic-bezier(0.25, 0.1, 0.25, 1);
   --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
-  --motion-duration: 0.95s;
-  --motion-stagger: 0.07s;
+  --ease-apple: cubic-bezier(0.22, 1, 0.36, 1);
+  --motion-duration: 1.05s;
+  --motion-stagger: 0.08s;
 }
 
 html {
   scroll-padding-top: var(--scroll-anchor-offset);
 }
 
-html.lenis,
+html.lenis {
+  height: auto;
+}
+
 html.lenis body {
   height: auto;
 }
 
 .lenis.lenis-smooth {
   scroll-behavior: auto !important;
+}
+
+.lenis.lenis-smooth iframe {
+  pointer-events: none;
 }
 
 .lenis.lenis-smooth [data-lenis-prevent] {
@@ -56,11 +64,17 @@ html.lenis body {
 
 .reveal {
   opacity: 0;
-  transform: translate3d(0, 32px, 0);
+  transform: translate3d(0, 28px, 0);
   transition:
-    opacity var(--motion-duration) var(--ease-out-expo),
-    transform var(--motion-duration) var(--ease-out-expo);
+    opacity var(--motion-duration) var(--ease-apple),
+    transform var(--motion-duration) var(--ease-apple);
   will-change: opacity, transform;
+}
+
+.reveal.is-revealing {
+  transition: none;
+  opacity: calc(0.12 + var(--reveal-p, 0) * 0.88);
+  transform: translate3d(0, calc((1 - var(--reveal-p, 0)) * 28px), 0);
 }
 
 .reveal.is-visible {
@@ -69,8 +83,35 @@ html.lenis body {
   will-change: auto;
 }
 
+@supports (animation-timeline: view()) {
+  .reveal    animation: reveal-view linear both;
+    animation-timeline: view();
+    animation-range: entry 2% cover 32%;
+  }
+
+  .reveal.is-revealing,
+  .reveal.is-visible {
+    animation: none;
+  }
+}
+
+@keyframes reveal-view {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 28px, 0);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
 .reveal--hero {
   transform: translate3d(0, 20px, 0);
+}
+
+.hero {
+  will-change: transform, opacity;
 }
 
 .hero.is-booted .reveal--hero {
@@ -146,6 +187,12 @@ html.lenis body {
     transform: none;
     transition: none;
     will-change: auto;
+    animation: none !important;
+  }
+
+  .hero {
+    transform: none !important;
+    opacity: 1 !important;
   }
 
   .hero.is-booted .reveal--hero {

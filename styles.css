@@ -503,6 +503,7 @@ main {
   align-items: stretch;
   gap: 1.75rem;
   text-align: left;
+  transform: translateZ(0);
 }
 
 .panel + .panel {

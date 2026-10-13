@@ -60,6 +60,8 @@ function initSectionIndicator() {
 
   sections.forEach((section) => io.observe(section));
   pickActive();
+
+  window.addEventListener("site-scroll", pickActive, { passive: true });
 }
 
 initSectionIndicator();
