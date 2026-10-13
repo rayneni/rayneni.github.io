@@ -59,14 +59,15 @@
       if (visible <= 0) return 0;
 
       const height = r.height || el.offsetHeight || 1;
-      const targetVisible = Math.min(height, vh * 0.68);
+      const targetVisible = Math.min(height, vh * 0.52);
       let p = Math.min(1, visible / Math.max(targetVisible, 1));
 
       const center = r.top + height / 2;
-      const focusY = vh * 0.44;
-      const focusSpread = vh * 0.5;
+      const focusY = vh * 0.42;
+      const focusSpread = vh * 0.34;
       const focus = 1 - Math.min(1, Math.abs(center - focusY) / focusSpread);
-      p *= 0.5 + focus * 0.5;
+      p *= 0.72 + focus * 0.28;
+      p = Math.pow(Math.max(0, Math.min(1, p)), 0.82);
 
       const offTop = Math.max(0, -r.top);
       const offBottom = Math.max(0, r.bottom - vh);
@@ -105,7 +106,8 @@
 
         el.classList.add("is-revealing");
         el.classList.toggle("is-visible", p >= 0.92);
-        el.style.opacity = String(0.08 + p * 0.92);
+        const o = 0.12 + Math.min(1, p * 1.12) * 0.88;
+        el.style.opacity = String(o);
         el.style.transform = `translate3d(0, ${y}px, 0) scale(${scale})`;
       }
     }
@@ -121,12 +123,12 @@
     if (!hero || reduceMotion) return;
 
     const tick = () => {
-      const scroll = window.scrollY || 0;
+      const scroll = window.__lenis?.scroll ?? window.scrollY ?? 0;
       const h = hero.offsetHeight || 1;
       const t = Math.min(scroll / h, 1);
-      const y = scroll * 0.28;
+      const y = scroll * 0.22;
       hero.style.transform = `translate3d(0, ${y}px, 0)`;
-      hero.style.opacity = String(1 - t * 0.42);
+      hero.style.opacity = String(1 - t * 0.38);
     };
 
     tick();
@@ -146,19 +148,19 @@
     });
   }
 
-  function startLenis() {
+  function startLenis(frameHooks) {
     if (reduceMotion || typeof Lenis !== "function") return null;
 
     const lenis = new Lenis({
-      lerp: 0.09,
-      duration: 1.35,
+      lerp: 0.155,
+      duration: 1.05,
       easing: appleEase,
       smoothWheel: true,
-      wheelMultiplier: 0.78,
-      touchMultiplier: 0.92,
+      wheelMultiplier: 1.08,
+      touchMultiplier: 1.12,
       syncTouch: true,
-      syncTouchLerp: 0.085,
-      touchInertiaMultiplier: 28,
+      syncTouchLerp: 0.14,
+      touchInertiaMultiplier: 22,
       infinite: false,
       autoResize: true,
       overscroll: true,
@@ -168,6 +170,7 @@
 
     function raf(time) {
       lenis.raf(time);
+      for (const fn of frameHooks) fn();
       requestAnimationFrame(raf);
     }
     requestAnimationFrame(raf);
@@ -175,7 +178,7 @@
     bindAnchorScroll((el) => {
       lenis.scrollTo(el, {
         offset: -scrollAnchorOffset(),
-        duration: 1.55,
+        duration: 1.05,
         easing: appleEase,
       });
     });
@@ -194,23 +197,28 @@
   markScrollableRegions();
   bootHero();
 
-  const lenis = startLenis();
+  const frameHooks = [];
   const onScroll = (fn) => {
-    if (lenis) lenis.on("scroll", fn);
-    else window.addEventListener("scroll", fn, { passive: true });
+    frameHooks.push(fn);
   };
 
   bootReveals(onScroll);
   bootHeroParallax(onScroll);
 
-  onScroll(() => {
+  frameHooks.push(() => {
     window.dispatchEvent(
       new CustomEvent("site-scroll", {
-        detail: { scroll: lenis?.scroll ?? window.scrollY },
+        detail: { scroll: window.__lenis?.scroll ?? window.scrollY ?? 0 },
       })
     );
   });
 
+  const lenis = startLenis(frameHooks);
   if (lenis) return;
   startNativeScroll();
+  const runFrame = () => {
+    for (const fn of frameHooks) fn();
+  };
+  window.addEventListener("scroll", runFrame, { passive: true });
+  runFrame();
 })();

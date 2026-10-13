@@ -2,10 +2,18 @@
   --ease-smooth: cubic-bezier(0.25, 0.1, 0.25, 1);
   --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
   --ease-apple: cubic-bezier(0.22, 1, 0.36, 1);
-  --motion-duration: 1.05s;
-  --motion-stagger: 0.08s;
-  --reveal-scale-min: 0.82;
-  --reveal-lift: 48px;
+  --motion-duration: 0.72s;
+  --motion-stagger: 0.05s;
+  --reveal-scale-min: 0.86;
+  --reveal-lift: 32px;
+}
+
+@media (max-width: 768px) {
+  :root {
+    --reveal-scale-min: 0.94;
+    --reveal-lift: 16px;
+    --motion-duration: 0.65s;
+  }
 }
 
 html {
