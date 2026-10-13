@@ -86,7 +86,7 @@ function mountCareerRocket() {
   if (glyph) careerRocketEl.innerHTML = glyph;
 }
 
-function moveRocketToStop(id, { smooth = true } = {}) {
+function moveRocketToStop(id) {
   if (!careerRocketEl || !careerTrackEl) return;
   const btn = stopButton(id);
   const mark = btn?.querySelector(".career-stop-mark");
@@ -96,13 +96,12 @@ function moveRocketToStop(id, { smooth = true } = {}) {
   const x = r.left + r.width / 2 - track.left;
   const y = r.top - track.top;
   careerRocketEl.hidden = false;
-  const motion = smooth ? "left 0.5s cubic-bezier(0.22, 0.9, 0.28, 1), top 0.5s cubic-bezier(0.22, 0.9, 0.28, 1)" : "none";
-  careerRocketEl.style.transition = motion;
+  careerRocketEl.style.transition = "none";
   careerRocketEl.style.left = `${x}px`;
   careerRocketEl.style.top = `${y}px`;
 }
 
-function selectStop(id, { smooth = true } = {}) {
+function selectStop(id) {
   const stop = BY_STOP_ID()[id];
   if (!stop) return;
   activeStopId = id;
@@ -110,9 +109,9 @@ function selectStop(id, { smooth = true } = {}) {
     el.classList.toggle("is-active", el.dataset.careerStop === id);
     el.setAttribute("aria-pressed", el.dataset.careerStop === id ? "true" : "false");
   });
-  moveRocketToStop(id, { smooth });
+  moveRocketToStop(id);
   showCareerSummary(stop);
-  if (smooth) window.applySiteTheme?.(id);
+  window.applySiteTheme?.(id);
 }
 
 function buildStopMark(stop) {
@@ -174,7 +173,7 @@ function showReady() {
 }
 
 function repositionRocket() {
-  if (activeStopId) moveRocketToStop(activeStopId, { smooth: false });
+  if (activeStopId) moveRocketToStop(activeStopId);
 }
 
 async function initCareer() {
@@ -185,7 +184,7 @@ async function initCareer() {
     buildStops();
     window.addEventListener("resize", repositionRocket);
     if (CAREER_STOPS.length > 0) {
-      selectStop(CAREER_STOPS[CAREER_STOPS.length - 1].id, { smooth: false });
+      selectStop(CAREER_STOPS[CAREER_STOPS.length - 1].id);
     } else {
       showReady();
     }

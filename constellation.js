@@ -51,13 +51,11 @@ class SkyRocket {
     this.cursorEl = cursorEl;
     this.landedEl = landedEl;
     this.mode = "hidden";
-    this.anim = null;
     this.lastPointer = null;
     this.lastClient = null;
     this.parkedStarId = null;
     this.hoverStarId = null;
     this.starGesture = false;
-    this.reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     const glyphs = window.SKILL_SKY_GLYPHS || {};
     if (glyphs.rocket) {
       if (cursorEl) cursorEl.innerHTML = glyphs.rocket;
@@ -100,7 +98,7 @@ class SkyRocket {
       this.map?.classList.remove("sky-map--hide-os-cursor");
       return;
     }
-    const hide = this.mode === "follow" || this.mode === "transit" || this.starGesture;
+    const hide = this.mode === "follow" || this.starGesture;
     this.map.classList.toggle("sky-map--hide-os-cursor", hide);
   }
 
@@ -139,14 +137,6 @@ class SkyRocket {
       }
       animation.cancel();
     }
-    this.anim = null;
-  }
-
-  snapCursorFromFrame(frame) {
-    if (!this.cursorEl || !frame) return;
-    if (frame.left) this.cursorEl.style.left = frame.left;
-    if (frame.top) this.cursorEl.style.top = frame.top;
-    if (frame.transform) this.cursorEl.style.transform = frame.transform;
   }
 
   mapPoint(clientX, clientY) {
@@ -177,13 +167,13 @@ class SkyRocket {
     return (Math.atan2(y2 - y1, x2 - x1) * 180) / Math.PI + 90;
   }
 
-  setCursorPose(x, y, deg, { flying = false } = {}) {
+  setCursorPose(x, y, deg) {
     if (!this.cursorEl) return;
-    if (!flying) this.clearCursorAnimations();
+    this.clearCursorAnimations();
     this.cursorEl.style.left = `${x}px`;
     this.cursorEl.style.top = `${y}px`;
     this.cursorEl.style.transform = `translate(-50%, -50%) rotate(${deg}deg)`;
-    this.cursorEl.classList.toggle("is-flying", flying);
+    this.cursorEl.classList.remove("is-flying");
   }
 
   parkOnStar(starId) {
@@ -270,7 +260,7 @@ class SkyRocket {
   }
 
   hideCursor() {
-    if (this.mode === "transit" || this.starGesture) return;
+    if (this.starGesture) return;
     if (this.mode !== "follow") return;
     this.cursorEl.hidden = true;
     this.mode = "hidden";
@@ -278,7 +268,7 @@ class SkyRocket {
   }
 
   onEnter(e) {
-    if (this.mode === "transit" || this.starGesture) return;
+    if (this.starGesture) return;
     this.trackPointer(e);
     if (this.mode === "hidden") {
       this.showFollow();
@@ -290,7 +280,7 @@ class SkyRocket {
   }
 
   onLeave() {
-    if (this.starGesture || this.mode === "transit") return;
+    if (this.starGesture) return;
     this.hideCursor();
   }
 
@@ -348,138 +338,18 @@ class SkyRocket {
     this._prevFollow = null;
   }
 
-  runTransit(frames, duration, onDone) {
-    if (!this.cursorEl || skyMobileLayout()) return;
-    this.clearCursorAnimations();
-    this.mode = "transit";
-    this.syncOsCursor();
-    this.revealCursorEl();
-    this.cursorEl.classList.add("is-flying");
-
-    const lastFrame = frames[frames.length - 1];
-    const complete = () => {
-      this.snapCursorFromFrame(lastFrame);
-      this.clearCursorAnimations();
-      this.cursorEl.classList.remove("is-flying");
-      this.endStarGesture();
-      onDone();
-    };
-
-    if (this.reduceMotion) {
-      this.snapCursorFromFrame(lastFrame);
-      complete();
-      return;
-    }
-
-    this.snapCursorFromFrame(frames[0]);
-    this.anim = this.cursorEl.animate(frames, { duration, easing: "linear", fill: "forwards" });
-    this.anim.onfinish = complete;
-    this.anim.oncancel = () => {
-      this.snapCursorFromFrame(lastFrame);
-    };
-  }
-
   flyToStar(starId, fromClient) {
     if (!this.map || !starId) return;
-    if (skyMobileLayout()) {
-      this.endStarGesture();
-      this.finishAtStar(starId);
-      return;
-    }
-    if (!this.cursorEl) return;
-    const target = this.starLandPoint(starId);
-    if (!target) return;
-
-    this.mode = "transit";
-    this.syncOsCursor();
-    this.revealCursorEl();
-    this.clearCursorAnimations();
     if (fromClient) this.trackPointer({ clientX: fromClient.x, clientY: fromClient.y });
-
-    let start;
-    if (fromClient) {
-      start = this.mapPoint(fromClient.x, fromClient.y);
-    } else if (this.cursorEl.style.left) {
-      start = {
-        x: Number.parseFloat(this.cursorEl.style.left),
-        y: Number.parseFloat(this.cursorEl.style.top),
-      };
-    } else if (this.lastPointer) {
-      start = { ...this.lastPointer };
-    } else {
-      start = { x: target.x, y: target.y + 48 };
-    }
-
-    const a0 = this.flightAngle(start.x, start.y, target.x, target.y);
-    this.runTransit(
-      [
-        {
-          left: `${start.x}px`,
-          top: `${start.y}px`,
-          transform: `translate(-50%, -50%) rotate(${a0}deg)`,
-        },
-        {
-          left: `${target.x}px`,
-          top: `${target.y}px`,
-          transform: "translate(-50%, -50%) rotate(0deg)",
-        },
-      ],
-      480,
-      () => this.finishAtStar(starId)
-    );
-  }
-
-  currentMapPos() {
-    if (!this.cursorEl?.style.left) return null;
-    return {
-      x: Number.parseFloat(this.cursorEl.style.left),
-      y: Number.parseFloat(this.cursorEl.style.top),
-    };
-  }
-
-  pushSegmentFrames(frames, from, to, steps) {
-    for (let i = 1; i <= steps; i += 1) {
-      const t = i / steps;
-      const x = from.x + (to.x - from.x) * t;
-      const y = from.y + (to.y - from.y) * t;
-      const tAhead = Math.min(1, t + 1 / steps);
-      const xAhead = from.x + (to.x - from.x) * tAhead;
-      const yAhead = from.y + (to.y - from.y) * tAhead;
-      const angle = this.flightAngle(x, y, xAhead, yAhead);
-      frames.push({
-        left: `${x}px`,
-        top: `${y}px`,
-        transform: `translate(-50%, -50%) rotate(${angle}deg)`,
-      });
-    }
-  }
-
-  traverseLine(fromId, toId) {
-    if (!this.map || !fromId || !toId) return;
-    if (skyMobileLayout()) {
-      this.endStarGesture();
-      this.finishAtStar(toId);
-      return;
-    }
-    if (!this.cursorEl) return;
+    this.endStarGesture();
     this.clearCursorAnimations();
+    this.finishAtStar(starId);
+  }
 
-    const start = starPoint(fromId);
-    const end = starPoint(toId);
-    const lineDist = Math.hypot(end.x - start.x, end.y - start.y);
-    const lineSteps = Math.max(10, Math.min(24, Math.round(lineDist / 14)));
-    const duration = Math.min(850, Math.max(360, lineDist * 2.4));
-
-    const frames = [];
-    const a0 = this.flightAngle(start.x, start.y, end.x, end.y);
-    frames.push({
-      left: `${start.x}px`,
-      top: `${start.y}px`,
-      transform: `translate(-50%, -50%) rotate(${a0}deg)`,
-    });
-    this.pushSegmentFrames(frames, start, end, lineSteps);
-
-    this.runTransit(frames, duration, () => this.finishAtStar(toId));
+  traverseLine(_fromId, toId) {
+    if (!this.map || !toId) return;
+    this.endStarGesture();
+    this.finishAtStar(toId);
   }
 
   repositionParked() {
@@ -805,7 +675,7 @@ function onStarPointerUp(event) {
 
   previewPoint = null;
   pointer = null;
-  if (skyRocket?.mode !== "transit") skyRocket?.endStarGesture();
+  skyRocket?.endStarGesture();
   renderLines();
 }
 

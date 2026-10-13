@@ -977,9 +977,6 @@ main {
   width: 2rem;
   height: 3rem;
   transform: translate(-50%, calc(-100% + 2px));
-  transition:
-    left 0.5s cubic-bezier(0.22, 0.9, 0.28, 1),
-    top 0.5s cubic-bezier(0.22, 0.9, 0.28, 1);
 }
 
 .career-rocket[hidden] {
@@ -1038,12 +1035,6 @@ main {
 .panel-experience .career-summary.sky-summary {
   max-height: none;
   overflow: visible;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .career-rocket {
-    transition: none;
-  }
 }
 
 .sky-play {
@@ -1299,16 +1290,6 @@ main {
 
 .sky-rocket--cursor .glyph-rocket-flame {
   opacity: 0.55;
-}
-
-.sky-rocket--cursor.is-flying {
-  opacity: 0.78;
-  filter: drop-shadow(0 3px 12px rgba(0, 0, 0, 0.45));
-}
-
-.sky-rocket--cursor.is-flying .glyph-rocket-flame {
-  animation-duration: 0.15s;
-  opacity: 0.85;
 }
 
 @keyframes rocket-flame {
