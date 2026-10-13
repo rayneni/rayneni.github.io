@@ -1301,9 +1301,14 @@ main {
   opacity: 0.55;
 }
 
+.sky-rocket--cursor.is-flying {
+  opacity: 0.78;
+  filter: drop-shadow(0 3px 12px rgba(0, 0, 0, 0.45));
+}
+
 .sky-rocket--cursor.is-flying .glyph-rocket-flame {
   animation-duration: 0.15s;
-  opacity: 0.75;
+  opacity: 0.85;
 }
 
 @keyframes rocket-flame {
@@ -1521,6 +1526,18 @@ main {
 }
 
 @media (max-width: 768px) {
+  .sky-rocket--cursor,
+  #sky-rocket {
+    display: none !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+  }
+
+  .sky-map.sky-map--hide-os-cursor,
+  .sky-map.sky-map--hide-os-cursor * {
+    cursor: auto !important;
+  }
+
   :root {
     --content-gutter: 1.125rem;
     --site-edge-inset-left: 0;
