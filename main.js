@@ -1,8 +1,3 @@
-const yearEl = document.getElementById("year");
-if (yearEl) {
-  yearEl.textContent = String(new Date().getFullYear());
-}
-
 function initSectionIndicator() {
   const root = document.getElementById("site-section-indicator");
   const labelEl = document.getElementById("site-section-label");

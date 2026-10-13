@@ -256,7 +256,7 @@ main {
   );
   max-width: var(--max-width);
   margin: 0 auto;
-  padding: 2rem var(--content-gutter) 4rem;
+  padding: 2rem var(--content-gutter) max(4rem, 14vh);
 }
 
 .hero {
@@ -503,7 +503,6 @@ main {
   align-items: stretch;
   gap: 1.75rem;
   text-align: left;
-  transform: translateZ(0);
 }
 
 .panel + .panel {
@@ -1503,22 +1502,6 @@ main {
   width: 1.65rem;
   height: 1.65rem;
   color: var(--accent);
-}
-
-.site-footer {
-  width: min(var(--max-width), calc(100vw - var(--content-gutter) * 2));
-  max-width: var(--max-width);
-  margin: 0 auto;
-  padding: 2rem var(--content-gutter);
-  border-top: 1px solid var(--border);
-  background: rgba(8, 10, 18, 0.4);
-  text-align: center;
-}
-
-.site-footer p {
-  margin: 0;
-  font-size: 0.8125rem;
-  color: var(--text-muted);
 }
 
 @media (max-width: 900px) {

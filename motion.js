@@ -26,61 +26,94 @@
   }
 
   function bootReveals(onScroll) {
-    const targets = [...document.querySelectorAll(".reveal:not(.reveal--hero)")];
-    if (!targets.length) return;
+    const panels = [...document.querySelectorAll(".reveal.panel")];
+    if (!panels.length) return;
 
     if (reduceMotion) {
-      targets.forEach((el) => el.classList.add("is-visible"));
+      panels.forEach((el) => {
+        el.classList.add("is-visible");
+        el.style.opacity = "";
+        el.style.transform = "";
+      });
       return;
     }
 
-    const io = new IntersectionObserver(
-      (entries) => {
-        for (const entry of entries) {
-          if (!entry.isIntersecting) continue;
-          commitReveal(entry.target);
-        }
-      },
-      { root: null, rootMargin: "0px 0px -6% 0px", threshold: [0, 0.12, 0.25] }
-    );
+    const root = document.documentElement;
+    const scaleMin = () => {
+      const v = getComputedStyle(root).getPropertyValue("--reveal-scale-min");
+      const n = Number.parseFloat(v);
+      return Number.isFinite(n) ? n : 0.82;
+    };
+    const liftPx = () => {
+      const v = getComputedStyle(root).getPropertyValue("--reveal-lift");
+      const n = Number.parseFloat(v);
+      return Number.isFinite(n) ? n : 48;
+    };
 
-    function commitReveal(el) {
-      el.classList.add("is-visible");
-      el.classList.remove("is-revealing");
-      el.style.removeProperty("--reveal-p");
-      el.querySelectorAll(".reveal-stagger").forEach((stagger) => {
-        stagger.classList.add("is-visible");
-      });
-      io.unobserve(el);
+    function panelRevealProgress(el, r, vh) {
+      if (r.bottom <= 0 || r.top >= vh) return 0;
+
+      const visibleTop = Math.max(r.top, 0);
+      const visibleBottom = Math.min(r.bottom, vh);
+      const visible = visibleBottom - visibleTop;
+      if (visible <= 0) return 0;
+
+      const height = r.height || el.offsetHeight || 1;
+      const targetVisible = Math.min(height, vh * 0.68);
+      let p = Math.min(1, visible / Math.max(targetVisible, 1));
+
+      const center = r.top + height / 2;
+      const focusY = vh * 0.44;
+      const focusSpread = vh * 0.5;
+      const focus = 1 - Math.min(1, Math.abs(center - focusY) / focusSpread);
+      p *= 0.5 + focus * 0.5;
+
+      const offTop = Math.max(0, -r.top);
+      const offBottom = Math.max(0, r.bottom - vh);
+      const clipped = offTop + offBottom;
+      p *= 1 - Math.min(1, clipped / Math.max(height * 0.9, 1));
+
+      const maxScroll = document.documentElement.scrollHeight - vh;
+      const scrollY = window.__lenis?.scroll ?? window.scrollY ?? 0;
+      const atPageEnd = maxScroll - scrollY <= 6;
+      if (atPageEnd && r.bottom > 0 && r.top < vh) {
+        const endBoost = Math.min(1, visible / Math.max(vh * 0.26, 1));
+        p = Math.max(p, endBoost);
+      }
+
+      return Math.max(0, Math.min(1, p));
     }
 
-    const hasViewTimeline =
-      typeof CSS !== "undefined" && CSS.supports("animation-timeline: view()");
-
-    function scrubReveals() {
-      if (hasViewTimeline) return;
+    function tickPanelScale() {
       const vh = window.innerHeight;
-      for (const el of targets) {
-        if (el.classList.contains("is-visible")) continue;
+      const min = scaleMin();
+      const lift = liftPx();
+
+      for (const el of panels) {
         const r = el.getBoundingClientRect();
-        const start = vh * 0.88;
-        const end = vh * 0.38;
-        const p = 1 - (r.top - end) / (start - end);
-        const t = Math.max(0, Math.min(1, p));
-        if (t <= 0.01) {
-          el.classList.remove("is-revealing");
-          el.style.removeProperty("--reveal-p");
+        const p = panelRevealProgress(el, r, vh);
+
+        if (p <= 0.01) {
+          el.classList.remove("is-visible", "is-revealing");
+          el.style.opacity = "0";
+          el.style.transform = `translate3d(0, ${lift}px, 0) scale(${min})`;
           continue;
         }
+
+        const scale = min + p * (1 - min);
+        const y = (1 - p) * lift;
+
         el.classList.add("is-revealing");
-        el.style.setProperty("--reveal-p", t.toFixed(3));
-        if (t >= 0.98) commitReveal(el);
+        el.classList.toggle("is-visible", p >= 0.92);
+        el.style.opacity = String(0.08 + p * 0.92);
+        el.style.transform = `translate3d(0, ${y}px, 0) scale(${scale})`;
       }
     }
 
-    targets.forEach((el) => io.observe(el));
-    scrubReveals();
-    onScroll?.(scrubReveals);
+    onScroll?.(tickPanelScale);
+    tickPanelScale();
+    window.addEventListener("resize", tickPanelScale, { passive: true });
+    window.addEventListener("load", tickPanelScale, { once: true });
   }
 
   function bootHeroParallax(onScroll) {
