@@ -12,7 +12,7 @@ let activeAboutId = null;
 const ABOUT_BY_ID = () => Object.fromEntries(ABOUT_POINTS.map((p) => [p.id, p]));
 
 async function loadAboutData() {
-  const res = await fetch("/data/about.json", { cache: "no-cache" });
+  const res = await fetch(window.sitePath("data/about.json"), { cache: "no-cache" });
   if (!res.ok) throw new Error(`about.json: ${res.status}`);
   const data = await res.json();
   ABOUT_POINTS = data.points || [];

@@ -54,6 +54,8 @@
 html {
   scroll-behavior: smooth;
   overflow-x: clip;
+  min-height: 100%;
+  background-color: var(--theme-sky-top);
 }
 
 body {

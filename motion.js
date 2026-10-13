@@ -1,5 +1,6 @@
 (function initMotion() {
   const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const coarsePointer = window.matchMedia("(hover: none) and (pointer: coarse)").matches;
   const scrollAnchorOffset = () => {
     const v = getComputedStyle(document.documentElement).getPropertyValue("--scroll-anchor-offset");
     const n = Number.parseFloat(v);
@@ -15,7 +16,7 @@
     requestAnimationFrame(() => hero.classList.add("is-booted"));
   }
 
-  function bootReveals() {
+  function bootReveals(onScroll) {
     const targets = document.querySelectorAll(".reveal:not(.reveal--hero)");
     if (!targets.length) return;
 
@@ -36,10 +37,29 @@
           io.unobserve(el);
         }
       },
-      { root: null, rootMargin: "-6% 0px -10% 0px", threshold: 0.08 }
+      { root: null, rootMargin: "0px 0px -8% 0px", threshold: 0.05 }
     );
 
+    const revealInView = () => {
+      for (const el of targets) {
+        if (el.classList.contains("is-visible")) continue;
+        const r = el.getBoundingClientRect();
+        if (r.top < window.innerHeight * 0.94 && r.bottom > 0) {
+          el.classList.add("is-visible");
+          el.querySelectorAll(".reveal-stagger").forEach((stagger) => {
+            stagger.classList.add("is-visible");
+          });
+          io.unobserve(el);
+        }
+      }
+    };
+
     targets.forEach((el) => io.observe(el));
+    revealInView();
+    requestAnimationFrame(revealInView);
+    window.addEventListener("load", revealInView, { once: true });
+    window.addEventListener("resize", revealInView, { passive: true });
+    onScroll?.(revealInView);
   }
 
   function bindAnchorScroll(scrollTo) {
@@ -56,7 +76,7 @@
   }
 
   function startLenis() {
-    if (reduceMotion || typeof Lenis !== "function") return null;
+    if (reduceMotion || coarsePointer || typeof Lenis !== "function") return null;
 
     const lenis = new Lenis({
       duration: 1.15,
@@ -90,8 +110,12 @@
   }
 
   bootHero();
-  bootReveals();
+  const lenis = startLenis();
+  bootReveals((cb) => {
+    if (lenis) lenis.on("scroll", cb);
+    else window.addEventListener("scroll", cb, { passive: true });
+  });
 
-  if (startLenis()) return;
+  if (lenis) return;
   startNativeScroll();
 })();

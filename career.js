@@ -19,7 +19,7 @@ const LOGO_FILL_STOP_IDS = new Set(["wagepoint", "workday"]);
 const BY_STOP_ID = () => Object.fromEntries(CAREER_STOPS.map((s) => [s.id, s]));
 
 async function loadCareerData() {
-  const res = await fetch("/data/career-path.json", { cache: "no-cache" });
+  const res = await fetch(window.sitePath("data/career-path.json"), { cache: "no-cache" });
   if (!res.ok) throw new Error(`career-path.json: ${res.status}`);
   const data = await res.json();
   CAREER_STOPS = data.stops || [];
@@ -29,7 +29,7 @@ async function loadCareerData() {
 function setCareerLogo(stop) {
   if (!careerLogoEl) return;
   if (stop?.logo) {
-    careerLogoEl.src = stop.logo;
+    careerLogoEl.src = window.sitePath(stop.logo);
     careerLogoEl.alt = stop.label || "";
     careerLogoEl.hidden = false;
     careerLogoEl.classList.toggle("career-summary-logo--fill", LOGO_FILL_STOP_IDS.has(stop.id));
@@ -123,7 +123,7 @@ function buildStopMark(stop) {
   if (stop.logo) {
     const img = document.createElement("img");
     img.className = "career-stop-logo";
-    img.src = stop.logo;
+    img.src = window.sitePath(stop.logo);
     img.alt = "";
     img.width = 48;
     img.height = 48;

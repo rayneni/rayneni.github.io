@@ -23,7 +23,7 @@ function applySkillSkyData(data) {
 }
 
 async function loadSkillSkyData() {
-  const res = await fetch("/data/skill-sky.json", { cache: "no-cache" });
+  const res = await fetch(window.sitePath("data/skill-sky.json"), { cache: "no-cache" });
   if (!res.ok) throw new Error(`skill-sky.json: ${res.status}`);
   applySkillSkyData(await res.json());
 }

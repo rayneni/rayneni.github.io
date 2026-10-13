@@ -64,6 +64,17 @@ function initSectionIndicator() {
 
 initSectionIndicator();
 
+document.querySelectorAll('.site-rail--comms a[href^="mailto:"], .contact-channel[href^="mailto:"]').forEach(
+  (link) => {
+    link.addEventListener("click", (e) => {
+      e.stopPropagation();
+      const href = link.getAttribute("href");
+      if (!href) return;
+      window.location.href = href;
+    });
+  }
+);
+
 document.querySelectorAll(".bg-brick").forEach((brick, index) => {
   if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
   document.addEventListener("pointermove", (e) => {

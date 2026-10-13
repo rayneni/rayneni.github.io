@@ -15,7 +15,7 @@ let activeEduId = null;
 const EDU_BY_ID = () => Object.fromEntries(EDU_STOPS.map((s) => [s.id, s]));
 
 async function loadEducationData() {
-  const res = await fetch("/data/education.json", { cache: "no-cache" });
+  const res = await fetch(window.sitePath("data/education.json"), { cache: "no-cache" });
   if (!res.ok) throw new Error(`education.json: ${res.status}`);
   const data = await res.json();
   EDU_STOPS = data.stops || [];
@@ -25,7 +25,7 @@ async function loadEducationData() {
 function setEduLogo(stop) {
   if (!eduLogoEl) return;
   if (stop?.logo) {
-    eduLogoEl.src = stop.logo;
+    eduLogoEl.src = window.sitePath(stop.logo);
     eduLogoEl.alt = stop.label || "";
     eduLogoEl.hidden = false;
   } else {
@@ -92,7 +92,7 @@ function buildEduStopMark(stop) {
   if (stop.logo) {
     const img = document.createElement("img");
     img.className = "edu-stop-logo";
-    img.src = stop.logo;
+    img.src = window.sitePath(stop.logo);
     img.alt = "";
     img.width = 40;
     img.height = 40;
