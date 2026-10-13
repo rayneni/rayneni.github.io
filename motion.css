@@ -10,8 +10,8 @@
 
 @media (max-width: 768px) {
   :root {
-    --reveal-scale-min: 0.94;
-    --reveal-lift: 16px;
+    --reveal-scale-min: 0.88;
+    --reveal-lift: 22px;
     --motion-duration: 0.65s;
   }
 }
