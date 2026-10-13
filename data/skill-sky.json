@@ -1,0 +1,164 @@
+{
+  "meta": {
+    "version": 2,
+    "expand": [
+      "Add a star object to stars[] (id, label, glyph, x, y, tagline, facts, summary).",
+      "summary.lead + summary.bullets are shown when the rocket lands on that star.",
+      "Append new star ids to starOrder if you use it elsewhere.",
+      "Optional: coreStarIds for brighter star styling.",
+      "Optional: glyph key in sky-glyphs.js."
+    ]
+  },
+  "starOrder": [
+    "agents",
+    "evals",
+    "zerotone",
+    "teams",
+    "platform",
+    "compliance"
+  ],
+  "coreStarIds": ["agents", "evals", "zerotone"],
+  "stars": [
+    {
+      "id": "agents",
+      "glyph": "agents",
+      "label": "Agents",
+      "x": 50,
+      "y": 22,
+      "tagline": "Ambient agents in production",
+      "facts": [
+        "Workday: ambient recruiting agent, conception → early access → GA.",
+        "Post-GA: 8 customers at EA → 40+ within three months.",
+        "Shipped tool design, external sourcing integrations, and ~70% token-cost reduction."
+      ],
+      "summary": {
+        "lead": "I shipped Workday’s ambient recruiting agent from conception through general availability.",
+        "bullets": [
+          "Led the agent from prototype → early access → GA with staged customer rollouts.",
+          "Grew adoption from 8 customers at EA to 40+ within three months post-GA.",
+          "Built tool design, external sourcing integrations, and ~70% token-cost reduction (caching, routing)."
+        ]
+      }
+    },
+    {
+      "id": "evals",
+      "glyph": "evals",
+      "label": "Evals",
+      "x": 26,
+      "y": 40,
+      "tagline": "Production eval frameworks",
+      "facts": [
+        "Eval harnesses and release gates before each agent audience expansion.",
+        "Production scoring/regression, not demo-quality bar.",
+        "Eval evidence shared with compliance and product for ship decisions."
+      ],
+      "summary": {
+        "lead": "Production agents need evals. I built the harnesses and gates before each rollout.",
+        "bullets": [
+          "Comprehensive eval frameworks before widening the ambient agent’s audience.",
+          "Production scoring and regression suites, not demo-quality bar.",
+          "Shared eval evidence with compliance and product for release decisions."
+        ]
+      }
+    },
+    {
+      "id": "zerotone",
+      "glyph": "zerotone",
+      "label": "0 → 1",
+      "x": 74,
+      "y": 38,
+      "tagline": "Prototype → EA → GA",
+      "facts": [
+        "Workday agent arc: prototype → EA → GA with staged customer rollouts.",
+        "Wagepoint: payroll platform and engineering org built from scratch.",
+        "Rocket: greenfield document services that became high-volume production paths."
+      ],
+      "summary": {
+        "lead": "0→1 delivery across Workday agents, Wagepoint payroll, and Rocket document systems.",
+        "bullets": [
+          "Workday: recruiting agent prototype → EA → GA with disciplined stage gates.",
+          "Wagepoint: payroll platform and engineering org built from scratch.",
+          "Rocket Mortgage: greenfield document services that became high-volume production paths."
+        ]
+      }
+    },
+    {
+      "id": "platform",
+      "glyph": "platform",
+      "label": "Platform",
+      "x": 84,
+      "y": 62,
+      "tagline": "Distributed systems at scale",
+      "facts": [
+        "Rocket: distributed document processing (.NET, AWS, Kubernetes).",
+        "On-prem mortgage docs → Amazon S3, millions per year in savings.",
+        "Microservices migrations and async APIs for availability under load."
+      ],
+      "summary": {
+        "lead": "High-throughput distributed platforms in production at Rocket Mortgage.",
+        "bullets": [
+          "Led document processing services (.NET, AWS, Kubernetes) under heavy load.",
+          "Migrated on-prem mortgage documents to Amazon S3, millions per year in savings.",
+          "Delivered async APIs and microservices migrations for availability."
+        ]
+      }
+    },
+    {
+      "id": "compliance",
+      "glyph": "compliance",
+      "label": "Compliance",
+      "x": 16,
+      "y": 60,
+      "tagline": "Regulated, auditable delivery",
+      "facts": [
+        "Wagepoint: FINTRAC-aligned payroll on mission-critical money movement.",
+        "Workday: compliance partners in the loop for enterprise HR agent releases.",
+        "Auditability and traceability before velocity in regulated domains."
+      ],
+      "summary": {
+        "lead": "Regulated shipping on payroll and enterprise HR; policy shaped the architecture.",
+        "bullets": [
+          "Wagepoint: FINTRAC-aligned payroll on mission-critical, time-sensitive money movement.",
+          "Workday: compliance partners in the loop for customer-facing agent releases.",
+          "Designed for auditability and traceability before raw feature velocity."
+        ]
+      }
+    },
+    {
+      "id": "teams",
+      "glyph": "teams",
+      "label": "Teams",
+      "x": 48,
+      "y": 78,
+      "tagline": "Engineering leadership",
+      "facts": [
+        "Workday: EM, agent factory team; Rocket: EM for 8+ engineers on document platform.",
+        "Hiring, 1:1s, performance reviews, and career coaching.",
+        "Cut incident detection/recovery ~50% via on-call and blameless postmortems."
+      ],
+      "summary": {
+        "lead": "Engineering manager for agent and platform teams, from hiring through delivery.",
+        "bullets": [
+          "Workday: EM for the agent factory team shipping the ambient recruiting agent.",
+          "Rocket Mortgage: EM for 8+ engineers on distributed document processing.",
+          "Cut incident detection/recovery ~50% with on-call discipline and blameless postmortems."
+        ]
+      }
+    }
+  ],
+  "ui": {
+    "ready": {
+      "kicker": "Skill sky",
+      "lead": "Six stars map how I work: agents, evals, 0→1, platform, compliance, and teams. Land the rocket on one for shipped examples; link up to three stars in the sky."
+    },
+    "anchorCleared": {
+      "kicker": "Skill sky",
+      "lead": "Anchor cleared. Land on a star to read about that area."
+    },
+    "cleared": {
+      "kicker": "Cleared",
+      "lead": "Land on Agents, Evals, or 0→1 for agent work; Platform, Compliance, and Teams for platform and leadership depth.",
+      "bullets": []
+    }
+  }
+}

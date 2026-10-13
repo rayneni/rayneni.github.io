@@ -5,12 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta
       name="description"
-      content="Rakshit Vallabhaneni — software engineer. Building thoughtful tools on the web."
+      content="Rakshit Vallabhaneni, engineering leader building production AI and agents, leading agentic teams toward measurable value and ROI."
     />
     <title>Rakshit Vallabhaneni · rval.dev</title>
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="canonical" href="https://rval.dev/" />
     <meta property="og:title" content="Rakshit Vallabhaneni" />
+    <meta
+      property="og:description"
+      content="Leading agentic teams to ship AI with value, adoption, and ROI."
+    />
     <meta property="og:url" content="https://rval.dev/" />
     <meta property="og:type" content="website" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -20,110 +24,277 @@
       rel="stylesheet"
     />
     <link rel="stylesheet" href="/styles.css" />
+    <link rel="stylesheet" href="/planet-scapes.css" />
+    <link rel="stylesheet" href="/motion.css" />
   </head>
   <body>
     <a class="skip-link" href="#main">Skip to content</a>
-    <div class="bg" aria-hidden="true"></div>
+    <div class="bg" aria-hidden="true">
+      <canvas class="bg-canvas" id="bg-canvas"></canvas>
+      <div class="bg-nebula"></div>
+      <div class="bg-scape" aria-hidden="true">
+        <div class="scape-glow"></div>
+        <div class="scape-sky-obj scape-sky-obj--a"></div>
+        <div class="scape-sky-obj scape-sky-obj--b"></div>
+        <div class="scape-layer scape-back"></div>
+        <div class="scape-layer scape-mid"></div>
+        <div class="scape-layer scape-front"></div>
+        <div class="scape-layer scape-water"></div>
+        <div class="scape-layer scape-feature"></div>
+        <div class="scape-layer scape-feature scape-feature--b"></div>
+        <div class="scape-layer scape-feature scape-feature--c"></div>
+      </div>
+      <div class="bg-floats" aria-hidden="true">
+        <span class="bg-brick bg-brick--1"></span>
+        <span class="bg-brick bg-brick--2"></span>
+        <span class="bg-brick bg-brick--3"></span>
+      </div>
+    </div>
 
-    <header class="site-header">
-      <a class="logo" href="/">rval</a>
-      <nav class="nav" aria-label="Primary">
-        <a href="#about">About</a>
-        <a href="#work">Work</a>
-        <a href="#contact">Contact</a>
-      </nav>
-    </header>
+    <div
+      class="site-section-indicator"
+      id="site-section-indicator"
+      aria-hidden="true"
+      aria-live="polite"
+    >
+      <p class="site-section-indicator-label" id="site-section-label"></p>
+    </div>
+
+    <nav class="site-rail site-rail--comms" aria-label="Reach out">
+      <span class="site-rail-beam" aria-hidden="true"></span>
+      <a
+        class="site-rail-node"
+        href="mailto:vallabhanenirakshit@gmail.com"
+      >
+        <span class="site-rail-text">Email</span>
+        <span class="site-rail-mark">
+          <svg class="site-rail-icon" viewBox="0 0 24 24" aria-hidden="true">
+            <path
+              fill="currentColor"
+              d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4-8 5-8-5V6l8 5 8-5v2z"
+            />
+          </svg>
+        </span>
+      </a>
+      <a
+        class="site-rail-node"
+        href="https://www.linkedin.com/in/rakshitvallabhaneni"
+        rel="noopener noreferrer"
+        target="_blank"
+      >
+        <span class="site-rail-text">LinkedIn</span>
+        <span class="site-rail-mark">
+          <svg class="site-rail-icon" viewBox="0 0 24 24" aria-hidden="true">
+            <path
+              fill="currentColor"
+              d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"
+            />
+          </svg>
+        </span>
+      </a>
+    </nav>
 
     <main id="main">
       <section class="hero">
-        <p class="eyebrow">Software engineer</p>
-        <h1>
+        <p class="eyebrow reveal reveal--hero">AI · Agents · Engineering leadership</p>
+        <h1 class="reveal reveal--hero">
           <span class="hero-name">Rakshit Vallabhaneni</span>
         </h1>
-        <p class="lead">
-          I build reliable software on the web — from interfaces people enjoy to
-          systems that stay fast under load.
+        <p class="lead reveal reveal--hero">
+          I lead agentic teams that ship production AI, not demos, and tie every release to
+          adoption, ROI, evals, and compliance.
         </p>
-        <div class="hero-actions">
-          <a class="btn btn-primary" href="#contact">Get in touch</a>
-          <a
-            class="btn btn-ghost"
-            href="https://github.com/rayneni"
-            rel="noopener noreferrer"
-            >GitHub</a
-          >
+      </section>
+
+      <section id="about" class="panel panel-about reveal">
+        <h2>About</h2>
+
+        <div class="about-play">
+          <ul class="about-list" id="about-list" role="list"></ul>
+          <div class="about-summary sky-summary" id="about-summary" aria-live="polite">
+            <p class="sky-summary-kicker" id="about-kicker">About</p>
+            <p class="sky-summary-lead" id="about-lead">
+              Tap a theme to see resume-backed examples.
+            </p>
+            <ul class="sky-summary-bullets" id="about-bullets" hidden></ul>
+          </div>
         </div>
       </section>
 
-      <section id="about" class="panel">
-        <h2>About</h2>
-        <p>
-          This is my corner of the internet at
-          <strong>rval.dev</strong>. I care about clear APIs, careful UX, and
-          shipping work that holds up after launch day.
+      <section id="experience" class="panel panel-experience reveal" aria-labelledby="experience-heading">
+        <h2 id="experience-heading">Career path</h2>
+        <p class="experience-lead">
+          A flight log of where I’ve been. Tap a stop to read what I shipped there.
         </p>
-        <p>
-          When I’m not coding, I’m usually reading, exploring new places, or
-          tinkering with side projects — the kind that start as a weekend idea
-          and quietly become useful.
-        </p>
+
+        <div class="career-play">
+          <div class="career-track-wrap">
+            <div class="career-track" id="career-track">
+              <div class="career-rail" aria-hidden="true">
+                <span class="career-rail-line"></span>
+              </div>
+              <div
+                class="career-rocket sky-rocket sky-rocket--landed"
+                id="career-rocket"
+                aria-hidden="true"
+                hidden
+              ></div>
+              <div class="career-stops" id="career-stops" role="group" aria-label="Career stops"></div>
+            </div>
+          </div>
+
+          <div class="career-summary sky-summary" id="career-summary" aria-live="polite">
+            <div class="career-summary-head">
+              <img
+                class="career-summary-logo"
+                id="career-logo"
+                width="54"
+                height="54"
+                alt=""
+                hidden
+              />
+              <p class="sky-summary-kicker" id="career-kicker">Career path</p>
+            </div>
+            <p class="sky-summary-lead" id="career-lead">
+              Tap a stop on the flight log to see what I built there.
+            </p>
+            <p class="career-summary-title" id="career-title" hidden></p>
+            <ul class="sky-summary-bullets" id="career-bullets" hidden></ul>
+          </div>
+        </div>
       </section>
 
-      <section id="work" class="panel">
-        <h2>Focus</h2>
-        <ul class="focus-list">
-          <li>
-            <span class="focus-title">Full-stack web</span>
-            <span class="focus-desc"
-              >TypeScript, modern frameworks, and APIs that are easy to reason
-              about.</span
-            >
-          </li>
-          <li>
-            <span class="focus-title">Developer experience</span>
-            <span class="focus-desc"
-              >Tooling, automation, and workflows that keep teams moving.</span
-            >
-          </li>
-          <li>
-            <span class="focus-title">Performance</span>
-            <span class="focus-desc"
-              >Measuring what matters and making the slow paths disappear.</span
-            >
-          </li>
-        </ul>
+      <section id="explore" class="panel panel-explore reveal" aria-labelledby="explore-heading">
+        <h2 id="explore-heading">Skill sky</h2>
+        <p class="explore-lead">
+          Land on a star for examples, or chain stars to connect ideas.
+        </p>
+
+        <div class="sky-play">
+          <div
+            class="sky-map"
+            id="sky-map"
+            role="application"
+            aria-label="Playful night sky"
+          >
+            <canvas class="sky-scribble" id="sky-scribble" aria-hidden="true"></canvas>
+            <svg class="sky-lines" id="sky-lines" aria-hidden="true"></svg>
+            <svg class="sky-lines sky-lines--retire" id="sky-lines-retire" aria-hidden="true"></svg>
+            <div class="sky-stars" id="sky-stars"></div>
+            <div
+              class="sky-rocket sky-rocket--landed"
+              id="sky-rocket-landed"
+              aria-hidden="true"
+              hidden
+            ></div>
+            <div
+              class="sky-rocket sky-rocket--cursor"
+              id="sky-rocket"
+              aria-hidden="true"
+              hidden
+            ></div>
+          </div>
+
+          <div class="sky-summary" id="sky-summary" aria-live="polite">
+            <p class="sky-summary-kicker" id="summary-kicker">Ready to link</p>
+            <p class="sky-summary-lead" id="summary-lead">
+              Land on Agents, Evals, or 0→1 for Workday agent work, or explore Platform,
+              Compliance, and Teams for the rest of the map.
+            </p>
+            <ul class="sky-summary-bullets" id="summary-bullets" hidden></ul>
+          </div>
+        </div>
       </section>
 
-      <section id="contact" class="panel panel-contact">
-        <h2>Contact</h2>
-        <p>
-          Open to interesting collaborations and conversations. The fastest way to
-          reach me is email.
+      <section id="education" class="panel panel-education reveal" aria-labelledby="education-heading">
+        <h2 id="education-heading">Education</h2>
+        <p class="education-lead">
+          Degrees behind the work. Tap a school for a bit more detail.
         </p>
-        <p class="contact-email">
-          <a href="mailto:hello@rval.dev">hello@rval.dev</a>
+
+        <div class="edu-play">
+          <div class="edu-track-wrap">
+            <div class="edu-track" id="edu-track">
+              <div class="edu-rail" aria-hidden="true">
+                <span class="edu-rail-line"></span>
+              </div>
+              <div class="edu-stops" id="edu-stops" role="group" aria-label="Education stops"></div>
+            </div>
+          </div>
+
+          <div class="edu-summary sky-summary" id="edu-summary" aria-live="polite">
+            <div class="edu-summary-head">
+              <img
+                class="edu-summary-logo"
+                id="edu-logo"
+                width="44"
+                height="44"
+                alt=""
+                hidden
+              />
+              <p class="sky-summary-kicker" id="edu-kicker">Education</p>
+            </div>
+            <p class="sky-summary-lead" id="edu-lead">
+              Tap a school to see the degree and focus.
+            </p>
+            <p class="edu-summary-degree" id="edu-title" hidden></p>
+            <ul class="sky-summary-bullets" id="edu-bullets" hidden></ul>
+          </div>
+        </div>
+      </section>
+
+      <section id="contact" class="panel panel-contact reveal" aria-labelledby="contact-heading">
+        <h2 id="contact-heading">Contact</h2>
+        <p class="contact-lead">
+          Open to leadership and production AI conversations.
         </p>
-        <ul class="social" aria-label="Profiles">
+        <ul class="contact-channels" aria-label="Ways to reach Rakshit">
           <li>
-            <a href="https://github.com/rayneni" rel="noopener noreferrer"
-              >GitHub</a
+            <a
+              class="contact-channel"
+              href="mailto:vallabhanenirakshit@gmail.com"
+              aria-label="Send email"
             >
+              <svg class="contact-channel-icon" viewBox="0 0 24 24" aria-hidden="true">
+                <path
+                  fill="currentColor"
+                  d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4-8 5-8-5V6l8 5 8-5v2z"
+                />
+              </svg>
+            </a>
           </li>
           <li>
             <a
+              class="contact-channel"
               href="https://www.linkedin.com/in/rakshitvallabhaneni"
               rel="noopener noreferrer"
-              >LinkedIn</a
+              aria-label="LinkedIn profile"
             >
+              <svg class="contact-channel-icon" viewBox="0 0 24 24" aria-hidden="true">
+                <path
+                  fill="currentColor"
+                  d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"
+                />
+              </svg>
+            </a>
           </li>
         </ul>
       </section>
     </main>
 
-    <footer class="site-footer">
+    <footer class="site-footer reveal">
       <p>© <span id="year"></span> Rakshit Vallabhaneni</p>
     </footer>
 
+    <script src="/site-themes.js" defer></script>
+    <script src="/world.js" defer></script>
+    <script src="/vendor/lenis.min.js" defer></script>
+    <script src="/motion.js" defer></script>
     <script src="/main.js" defer></script>
+    <script src="/sky-glyphs.js" defer></script>
+    <script src="/constellation.js" defer></script>
+    <script src="/about.js" defer></script>
+    <script src="/career.js" defer></script>
+    <script src="/education.js" defer></script>
   </body>
 </html>

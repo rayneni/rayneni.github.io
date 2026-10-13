@@ -1,0 +1,38 @@
+{
+  "meta": {
+    "version": 1,
+    "expand": [
+      "stops[] chronological (oldest → newest): id, label, degree, logo, lead, bullets (0–3)."
+    ]
+  },
+  "ui": {
+    "ready": {
+      "kicker": "Education",
+      "lead": "Tap a school to see the degree and focus."
+    }
+  },
+  "stops": [
+    {
+      "id": "anna",
+      "label": "Anna University",
+      "degree": "B.S. Computer Science",
+      "logo": "/assets/education/logos/anna-university.png",
+      "lead": "Undergraduate foundation in computer science and software engineering.",
+      "bullets": [
+        "Core CS curriculum: algorithms, systems, and software design.",
+        "Stepping stone into graduate study and industry engineering roles."
+      ]
+    },
+    {
+      "id": "uh-ms",
+      "label": "University of Houston",
+      "degree": "M.S. Computer Science",
+      "logo": "/assets/career/logos/uh.svg",
+      "lead": "Graduate work in distributed systems and software engineering.",
+      "bullets": [
+        "M.S. coursework and research in distributed systems and production-minded software design.",
+        "Combined with software developer work on campus before full-time industry roles."
+      ]
+    }
+  ]
+}

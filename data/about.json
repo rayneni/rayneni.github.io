@@ -1,0 +1,76 @@
+{
+  "meta": {
+    "version": 1,
+    "expand": [
+      "points[]: id, label (short nav), title (detail heading), lead, bullets."
+    ]
+  },
+  "ui": {
+    "ready": {
+      "kicker": "About",
+      "lead": "Tap a theme to see resume-backed examples and numbers."
+    }
+  },
+  "points": [
+    {
+      "id": "leadership",
+      "label": "Engineering leadership",
+      "title": "Hands-on systems background, now leading agentic teams",
+      "lead": "Management at Workday and Rocket; shipping code earlier at Rocket and UH.",
+      "bullets": [
+        "Workday: Engineering Manager, Agent Factory (ambient recruiting agent, prototype → EA → GA).",
+        "Rocket Mortgage: EM for 8+ engineers on distributed document processing (.NET, AWS, Kubernetes).",
+        "Rocket: Senior Software Engineer on high-volume document and workflow systems before moving into management.",
+        "University of Houston: Software Developer on internal apps used by staff and researchers."
+      ]
+    },
+    {
+      "id": "production-ai",
+      "label": "Production AI",
+      "title": "Ship agents, measure outcomes, tie releases to adoption and ROI",
+      "lead": "Workday ambient agent with staged rollouts and measurable customer growth post-GA.",
+      "bullets": [
+        "Recruiting agent: prototype → early access → general availability with disciplined stage gates.",
+        "8 customers at EA → 40+ within three months after GA.",
+        "Tool design, external sourcing integrations, and ~70% token-cost reduction in production (caching, routing).",
+        "Eval evidence and release gates tied to each audience expansion, not one-off demos."
+      ]
+    },
+    {
+      "id": "evals-compliance",
+      "label": "Evals & compliance",
+      "title": "Eval harnesses, cost discipline, compliance in the loop before scale",
+      "lead": "Eval harnesses and compliance review before widening agent audiences; regulated payroll at Wagepoint.",
+      "bullets": [
+        "Built eval frameworks and production scoring/regression suites before each agent rollout.",
+        "Shared eval evidence with compliance and product for ship decisions at Workday.",
+        "~70% token-cost reduction on the ambient agent through caching and routing choices.",
+        "Wagepoint: FINTRAC-aligned capabilities on mission-critical, time-sensitive payroll."
+      ]
+    },
+    {
+      "id": "regulated",
+      "label": "Regulated platforms",
+      "title": "Payroll, mortgage, and enterprise HR under audit pressure",
+      "lead": "Money movement, mortgage documents, and enterprise HR agents under policy and audit pressure.",
+      "bullets": [
+        "Wagepoint: greenfield payroll platform for time-sensitive money movement with FINTRAC alignment.",
+        "Rocket: on-prem mortgage documents migrated to Amazon S3, millions per year in savings.",
+        "Rocket: distributed document processing under production load during busy mortgage cycles.",
+        "Workday: enterprise HR ambient agent with compliance partners in the loop for customer releases."
+      ]
+    },
+    {
+      "id": "teams",
+      "label": "Teams & alignment",
+      "title": "Hiring, mentorship, and product stakeholder partnership",
+      "lead": "Built teams and operating models at Wagepoint and Rocket; cross-functional alignment at Workday.",
+      "bullets": [
+        "Wagepoint: hired and led the engineering org while shipping payroll from scratch.",
+        "Rocket: managed 8+ engineers; cut incident detection/recovery ~50% via on-call and blameless postmortems.",
+        "Workday: agent factory team shipping GA with product, compliance, and customer-facing rollouts.",
+        "UH and Rocket: owned work from stakeholder requirements through implementation, test, and rollout."
+      ]
+    }
+  ]
+}

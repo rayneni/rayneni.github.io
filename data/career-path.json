@@ -1,0 +1,82 @@
+{
+  "meta": {
+    "version": 1,
+    "expand": [
+      "Add stops to stops[] in chronological order (oldest → newest).",
+      "Each stop: id, label, period, title, lead, bullets (2–4 concrete outcomes), logo (path under /assets/career/logos/)."
+    ]
+  },
+  "ui": {
+    "ready": {
+      "kicker": "Career path",
+      "lead": "Tap a stop on the flight log to see what I built there."
+    }
+  },
+  "stops": [
+    {
+      "id": "uh",
+      "label": "University of Houston",
+      "logo": "/assets/career/logos/uh.svg",
+      "period": "Software Developer",
+      "title": "Software Developer",
+      "lead": "Built and maintained software for campus teams, my first sustained production engineering role.",
+      "bullets": [
+        "Delivered features and fixes on internal applications used by university staff and researchers.",
+        "Owned work across the stack: requirements with stakeholders, implementation, testing, and rollout.",
+        "Carried that shipping discipline into mortgage and payroll platforms after UH."
+      ]
+    },
+    {
+      "id": "rocket-senior",
+      "label": "Rocket Mortgage",
+      "logo": "/assets/career/logos/rocket-mortgage.svg",
+      "period": "Senior Engineer",
+      "title": "Senior Software Engineer",
+      "lead": "High-volume document and workflow systems on the mortgage path.",
+      "bullets": [
+        "Distributed document processing (.NET, AWS, Kubernetes) under production load.",
+        "Helped modernize document flows on the path to faster loan closings.",
+        "Technical lead on services that had to stay up through busy cycles."
+      ]
+    },
+    {
+      "id": "rocket-em",
+      "label": "Rocket Mortgage",
+      "logo": "/assets/career/logos/rocket-mortgage.svg",
+      "period": "Engineering Manager",
+      "title": "Engineering Manager",
+      "lead": "Led the team owning document processing and cloud storage at scale.",
+      "bullets": [
+        "Managed 8+ engineers on distributed document services and storage.",
+        "On-prem mortgage documents → Amazon S3, millions per year in savings.",
+        "Cut incident detection/recovery ~50% with on-call discipline and blameless postmortems."
+      ]
+    },
+    {
+      "id": "wagepoint",
+      "label": "Wagepoint",
+      "logo": "/assets/career/logos/wagepoint.png",
+      "period": "Engineering Manager",
+      "title": "Engineering Manager · Payroll Platform",
+      "lead": "Built the engineering org and payroll product from scratch in a regulated space.",
+      "bullets": [
+        "Greenfield payroll platform for time-sensitive, mission-critical money movement.",
+        "FINTRAC-aligned capabilities on a high-volume financial platform.",
+        "Hired and led the team while shipping observability and on-call from day one."
+      ]
+    },
+    {
+      "id": "workday",
+      "label": "Workday",
+      "logo": "/assets/career/logos/workday.webp",
+      "period": "Present",
+      "title": "Engineering Manager · Agent Factory",
+      "lead": "Ambient recruiting agent from conception through GA, with the team that ships it.",
+      "bullets": [
+        "Ambient agent: prototype → early access → general availability.",
+        "8 customers at EA → 40+ within three months post-GA.",
+        "Eval harnesses, compliance partners, and ~70% token-cost reduction in production."
+      ]
+    }
+  ]
+}
